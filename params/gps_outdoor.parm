@@ -1,0 +1,4 @@
+# Outdoor + GPS hold overlay.
+GPS_TYPE,1
+ARMING_CHECK,1
+EK3_SRC1_POSXY,3

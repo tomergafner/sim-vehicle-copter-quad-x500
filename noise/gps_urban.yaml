@@ -1,0 +1,5 @@
+# GPS noise profile — urban multipath.
+horizontal_position_stddev_m: 1.5
+vertical_position_stddev_m: 3.0
+velocity_stddev_mps: 0.2
+fix_dropout_probability: 0.02

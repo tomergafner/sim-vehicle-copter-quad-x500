@@ -1,0 +1,6 @@
+# Base ArduPilot params — copter-quad-x500 (500mm quad, X frame, 4S).
+FRAME_CLASS,1
+FRAME_TYPE,1
+BATT_CELLS,4
+BATT_CAPACITY,5000
+ARMING_CHECK,1

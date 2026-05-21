@@ -1,0 +1,3 @@
+# SITL-only quality-of-life overlay (always applied on the `sitl` context).
+DISARM_DELAY,0
+SIM_SPEEDUP,1

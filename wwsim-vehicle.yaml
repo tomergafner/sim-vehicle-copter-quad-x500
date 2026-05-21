@@ -1,0 +1,55 @@
+wwsim_vehicle_version: 1
+name: copter-quad-x500
+description: 500mm quad, X frame, 4S, downward rangefinder — the wwsim reference copter.
+
+autopilot: ardupilot
+# Matches the SITL baked into the wwsim-runtime image (no in-pod rebuild).
+firmware_ref: Copter-4.6.3
+
+vehicle:
+  type: copter
+  frame: quad
+  mass_kg: 1.6
+  arm_length_m: 0.25
+  battery:
+    cells: 4
+    capacity_mah: 5000
+    voltage_nominal: 14.8
+
+sensors:
+  - gps
+  - imu
+  - barometer
+  - magnetometer
+  - camera_front_rgb
+  - lidar_2d_360
+  - rangefinder_down
+
+params:
+  ardupilot: params/copter_x500.parm
+
+# Named overlays composed on top of the base params at launch.
+param_overlays:
+  sitl_dev:
+    description: SITL-only quality-of-life (motor-spin, disarm delay).
+    files:
+      - params/sitl_dev.parm
+    always_apply_on:
+      - sitl
+  indoor_no_gps:
+    description: GPS-denied indoor SITL — disables GPS, relaxes arm checks.
+    files:
+      - params/sitl_dev.parm
+      - params/no_gps.parm
+  outdoor_gps:
+    description: Outdoor + GPS hold (matches the real-hardware profile).
+    files:
+      - params/gps_outdoor.parm
+
+noise_profiles:
+  imu: noise/imu_default.yaml
+  gps: noise/gps_urban.yaml
+
+metadata:
+  tags: [quad, sub-2kg, indoor-capable, reference]
+  ardupilot_min_version: "4.6"

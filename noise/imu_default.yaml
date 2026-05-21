@@ -1,0 +1,9 @@
+# IMU sensor-noise profile — used by deterministic best_effort / strict mode.
+accel:
+  noise_density: 0.004
+  random_walk: 0.0006
+  bias_correlation_time: 300.0
+gyro:
+  noise_density: 0.0003
+  random_walk: 0.000038
+  bias_correlation_time: 1000.0
