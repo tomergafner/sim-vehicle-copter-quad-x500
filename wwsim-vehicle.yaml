@@ -1,10 +1,18 @@
-wwsim_vehicle_version: 1
+wwsim_vehicle_version: 2
 name: copter-quad-x500
-description: 500mm quad, X frame, 4S, downward rangefinder — the wwsim reference copter.
+description: 500mm quad, X frame, 4S — wwsim reference copter (Gazebo + cameras).
 
-autopilot: ardupilot
-# Matches the SITL baked into the wwsim-runtime image (no in-pod rebuild).
-firmware_ref: Copter-4.6.3
+sim:
+  autopilot:
+    name: ardupilot
+    firmware_ref: Copter-4.6.3
+    params:
+      base: params/copter_x500.parm
+      overlays: []
+    gazebo:
+      model: gazebo/iris/model.sdf
+      spawn:
+        pose: "0 0 0.2 0 0 0"
 
 vehicle:
   type: copter
@@ -17,39 +25,37 @@ vehicle:
     voltage_nominal: 14.8
 
 sensors:
-  - gps
-  - imu
-  - barometer
-  - magnetometer
-  - camera_front_rgb
-  - lidar_2d_360
-  - rangefinder_down
+  autopilot_consumed:
+    - gps
+    - imu
+    - barometer
+    - magnetometer
+    - rangefinder_down
+  external_streams:
+    - name: onboard-cam
+      type: camera
+      adapter: gazebo-topic
+      config: { topic: camera/onboard, udp_port: 5600 }
+    - name: chase-cam
+      type: camera
+      adapter: gazebo-topic
+      config: { topic: camera/chase, udp_port: 5602 }
 
-params:
-  ardupilot: params/copter_x500.parm
-
-# Named overlays composed on top of the base params at launch.
 param_overlays:
   sitl_dev:
     description: SITL-only quality-of-life (motor-spin, disarm delay).
-    files:
-      - params/sitl_dev.parm
-    always_apply_on:
-      - sitl
+    files: [params/sitl_dev.parm]
+    always_apply_on: [sitl]
   indoor_no_gps:
-    description: GPS-denied indoor SITL — disables GPS, relaxes arm checks.
-    files:
-      - params/sitl_dev.parm
-      - params/no_gps.parm
+    description: GPS-denied indoor SITL.
+    files: [params/sitl_dev.parm, params/no_gps.parm]
   outdoor_gps:
-    description: Outdoor + GPS hold (matches the real-hardware profile).
-    files:
-      - params/gps_outdoor.parm
+    description: Outdoor + GPS hold.
+    files: [params/gps_outdoor.parm]
 
 noise_profiles:
   imu: noise/imu_default.yaml
   gps: noise/gps_urban.yaml
 
 metadata:
-  tags: [quad, sub-2kg, indoor-capable, reference]
-  ardupilot_min_version: "4.6"
+  tags: [quad, sub-2kg, reference, gazebo]
