@@ -20,6 +20,7 @@
       <fdm_port_in>${FDM_PORT_IN}</fdm_port_in>
       <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
       <lock_step>1</lock_step>
+      <no_time_sync>0</no_time_sync>
       <have_32_channels>0</have_32_channels>
       <modelXYZToAirplaneXForwardZDown degrees="true">0 0 0 180 0 0</modelXYZToAirplaneXForwardZDown>
       <gazeboXYZToNED degrees="true">0 0 0 180 0 90</gazeboXYZToNED>
